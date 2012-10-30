@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Flaky tests">
+  <test name="Analyser tests">
+    <classes>
+      <class name="jetbrains.buildServer.serverSide.flaky.analyser.ModificationBasedAlgorithmTest"/>
+    </classes>
+  </test>
+</suite>

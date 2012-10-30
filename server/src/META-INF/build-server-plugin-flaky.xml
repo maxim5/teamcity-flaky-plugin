@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<!--suppress SpringFacetInspection -->
+<beans default-autowire="constructor">
+  <bean class="jetbrains.buildServer.serverSide.flaky.data.TestAnalysisResultHolder"/>
+  <bean class="jetbrains.buildServer.serverSide.flaky.data.TestAnalysisProgressManager"/>
+  <bean class="jetbrains.buildServer.serverSide.flaky.analyser.AlgorithmsHolder"/>
+  <bean class="jetbrains.buildServer.serverSide.flaky.analyser.TestsAnalyser"/>
+  <bean class="jetbrains.buildServer.serverSide.flaky.web.TestsAnalysisTab"/>
+  <bean class="jetbrains.buildServer.serverSide.flaky.web.RunTestsAnalysisController"/>
+  <bean class="jetbrains.buildServer.serverSide.flaky.web.ShowTestDetailsController"/>
+</beans>
