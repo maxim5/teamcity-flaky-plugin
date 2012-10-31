@@ -1,0 +1,842 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="flaky_tests_plugin" default="all">
+  
+  
+  <property file="build.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="128m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/SCCS/**"/>
+    <exclude name="**/RCS/**"/>
+    <exclude name="**/rcs/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/.pyc/**"/>
+    <exclude name="**/.pyo/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/*.lib/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/.bundle/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+    <exclude name="**/*.orig/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.zip"/>
+    <include name="*.apk"/>
+    <include name="*.war"/>
+    <include name="*.egg"/>
+    <include name="*.ear"/>
+    <include name="*.ane"/>
+    <include name="*.swc"/>
+    <include name="*.jar"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <include name="**/?*.properties"/>
+    <include name="**/?*.xml"/>
+    <include name="**/?*.gif"/>
+    <include name="**/?*.png"/>
+    <include name="**/?*.jpeg"/>
+    <include name="**/?*.jpg"/>
+    <include name="**/?*.html"/>
+    <include name="**/?*.dtd"/>
+    <include name="**/?*.tld"/>
+    <include name="**/?*.ftl"/>
+  </patternset>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.agent-api.classpath">
+    <pathelement location="${path.variable.teamcitydistribution}/devPackage/agent-api.jar"/>
+  </path>
+  
+  <path id="library.common-api.classpath">
+    <pathelement location="${path.variable.teamcitydistribution}/devPackage/common-api.jar"/>
+    <pathelement location="${path.variable.teamcitydistribution}/webapps/ROOT/WEB-INF/lib/annotations.jar"/>
+  </path>
+  
+  <path id="library.common-impl.classpath">
+    <pathelement location="${path.variable.teamcitydistribution}/buildAgent/lib/common-impl.jar"/>
+  </path>
+  
+  <path id="library.idea-openapi.classpath">
+    <pathelement location="${path.variable.teamcitydistribution}/webapps/ROOT/WEB-INF/lib/jdom.jar"/>
+    <pathelement location="${path.variable.teamcitydistribution}/webapps/ROOT/WEB-INF/lib/openapi.jar"/>
+    <pathelement location="${path.variable.teamcitydistribution}/webapps/ROOT/WEB-INF/lib/resources_en.jar"/>
+    <pathelement location="${path.variable.teamcitydistribution}/webapps/ROOT/WEB-INF/lib/trove4j.jar"/>
+    <pathelement location="${path.variable.teamcitydistribution}/webapps/ROOT/WEB-INF/lib/util.jar"/>
+  </path>
+  
+  <path id="library.idea_annotations.jar.classpath">
+    <pathelement location="${path.variable.teamcitydistribution}/webapps/ROOT/WEB-INF/lib/annotations.jar"/>
+  </path>
+  
+  <path id="library.jmock.classpath">
+    <pathelement location="${basedir}/lib/jmock/hamcrest-core-1.1.jar"/>
+    <pathelement location="${basedir}/lib/jmock/hamcrest-library-1.1.jar"/>
+    <pathelement location="${basedir}/lib/jmock/jmock-2.5.1.jar"/>
+    <pathelement location="${basedir}/lib/jmock/jmock-core-1.2.0.jar"/>
+  </path>
+  
+  <path id="library.log4j.classpath">
+    <pathelement location="${path.variable.teamcitydistribution}/webapps/ROOT/WEB-INF/lib/log4j-1.2.12.jar"/>
+  </path>
+  
+  <path id="library.server-api.classpath">
+    <pathelement location="${path.variable.teamcitydistribution}/devPackage/server-api.jar"/>
+  </path>
+  
+  <path id="library.servlet_api.classpath">
+    <pathelement location="${path.variable.teamcitydistribution}/lib/servlet-api.jar"/>
+  </path>
+  
+  <path id="library.spring.classpath">
+    <pathelement location="${path.variable.teamcitydistribution}/webapps/ROOT/WEB-INF/lib/spring-security.jar"/>
+    <pathelement location="${path.variable.teamcitydistribution}/webapps/ROOT/WEB-INF/lib/spring-webmvc.jar"/>
+    <pathelement location="${path.variable.teamcitydistribution}/webapps/ROOT/WEB-INF/lib/spring.jar"/>
+  </path>
+  
+  <path id="library.standard.jar.classpath">
+    <pathelement location="${path.variable.teamcitydistribution}/webapps/ROOT/WEB-INF/lib/standard.jar"/>
+  </path>
+  
+  <path id="library.teamcity_agent_runtime.classpath">
+    <fileset dir="${path.variable.teamcitydistribution}/buildAgent/lib">
+      <patternset refid="library.patterns"/>
+    </fileset>
+  </path>
+  
+  <path id="library.teamcity_server_runtime.classpath">
+    <fileset dir="${path.variable.teamcitydistribution}/webapps/ROOT/WEB-INF/lib">
+      <patternset refid="library.patterns"/>
+    </fileset>
+  </path>
+  
+  <path id="library.test-api.classpath">
+    <pathelement location="${path.variable.teamcitydistribution}/devPackage/tests/tests-support.jar"/>
+  </path>
+  
+  <path id="library.test-api_libs.classpath">
+    <pathelement location="${basedir}/lib/jmock/jmock-core-1.2.0.jar"/>
+    <pathelement location="${path.variable.teamcitydistribution}/webapps/ROOT/WEB-INF/lib/xmlrpc-2.0.1.jar"/>
+  </path>
+  
+  <path id="library.testng.classpath">
+    <pathelement location="${basedir}/lib/testng/testng-5.14.1.jar"/>
+  </path>
+  
+  
+  <!-- Application Server Libraries -->
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module idea-resolve-helper -->
+  
+  <dirname property="module.idea-resolve-helper.basedir" file="${ant.file}"/>
+  
+  
+  
+  <property name="compiler.args.idea-resolve-helper" value="${compiler.args}"/>
+  
+  <property name="idea-resolve-helper.output.dir" value="${module.idea-resolve-helper.basedir}/out/production/idea-resolve-helper"/>
+  <property name="idea-resolve-helper.testoutput.dir" value="${module.idea-resolve-helper.basedir}/out/test/idea-resolve-helper"/>
+  
+  <path id="idea-resolve-helper.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="idea-resolve-helper.module.production.classpath">
+    <pathelement location="${path.variable.teamcitydistribution}/webapps/ROOT/WEB-INF/lib/standard.jar"/>
+    <path refid="library.standard.jar.classpath"/>
+    <path refid="library.teamcity_server_runtime.classpath"/>
+  </path>
+  
+  <path id="idea-resolve-helper.runtime.production.module.classpath">
+    <pathelement location="${idea-resolve-helper.output.dir}"/>
+    <pathelement location="${path.variable.teamcitydistribution}/webapps/ROOT/WEB-INF/lib/standard.jar"/>
+    <path refid="library.standard.jar.classpath"/>
+    <path refid="library.teamcity_server_runtime.classpath"/>
+  </path>
+  
+  <path id="idea-resolve-helper.module.classpath">
+    <pathelement location="${idea-resolve-helper.output.dir}"/>
+    <pathelement location="${path.variable.teamcitydistribution}/webapps/ROOT/WEB-INF/lib/standard.jar"/>
+    <path refid="library.standard.jar.classpath"/>
+    <path refid="library.teamcity_server_runtime.classpath"/>
+  </path>
+  
+  <path id="idea-resolve-helper.runtime.module.classpath">
+    <pathelement location="${idea-resolve-helper.testoutput.dir}"/>
+    <pathelement location="${idea-resolve-helper.output.dir}"/>
+    <pathelement location="${path.variable.teamcitydistribution}/webapps/ROOT/WEB-INF/lib/standard.jar"/>
+    <path refid="library.standard.jar.classpath"/>
+    <path refid="library.teamcity_server_runtime.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.idea-resolve-helper">
+    <patternset refid="ignored.files"/>
+    <exclude name="WEB-INF/plugins/**"/>
+    <exclude name="WEB-INF/plugins/jps-tool/**"/>
+    <exclude name="WEB-INF/plugins/jps-tool/agent/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/xcode-runner/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/xcode-runner/server/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/xcode-runner/server/license/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/xcode-runner/agent/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/win32-distributor/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/win32-distributor/bin/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/win32-distributor/server/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/vs-addin-distributor/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/vs-addin-distributor/bin/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/vs-addin-distributor/server/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/fxcop/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/fxcop/server/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/fxcop/agent/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/agent.push/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/agent.push/server/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/dotNetPackagesSupport/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/dotNetPackagesSupport/bin/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/dotNetPackagesSupport/bin/plugins4/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/dotNetPackagesSupport/server/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/dotNetPackagesSupport/agent/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/dotNetPackagesSupport/licenses/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/rest-api-6.0/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/rest-api-6.0/server/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/xml-report-plugin/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/xml-report-plugin/server/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/xml-report-plugin/agent/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/rest-api/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/rest-api/server/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/intellij-plugin-distributor/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/intellij-plugin-distributor/bin/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/intellij-plugin-distributor/server/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/clearcase/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/clearcase/server/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/clearcase/agent/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/mercurial/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/mercurial/server/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/mercurial/agent/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/swabra/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/swabra/server/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/swabra/agent/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/dotnet-tools/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/dotnet-tools/server/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/dotnet-tools/agent/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/perfmon/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/perfmon/server/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/perfmon/agent/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/git-plugin/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/git-plugin/server/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/git-plugin/agent/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/git-plugin/agent/lib/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/git-plugin/agent/lib/ssh/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/vault-vcs/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/vault-vcs/server/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/agentSystemInfo/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/agentSystemInfo/agent/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/rake-runner/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/rake-runner/server/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/rake-runner/agent/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/teamcity-powershell/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/teamcity-powershell/server/**"/>
+    <exclude name="WEB-INF/plugins/.unpacked/teamcity-powershell/agent/**"/>
+    <exclude name="WEB-INF/plugins/maven-tool/**"/>
+    <exclude name="WEB-INF/plugins/maven-tool/agent/**"/>
+    <exclude name="WEB-INF/plugins/java-dowser/**"/>
+    <exclude name="WEB-INF/plugins/java-dowser/agent/**"/>
+    <exclude name="WEB-INF/plugins/vss/**"/>
+    <exclude name="WEB-INF/plugins/vss/server/**"/>
+    <exclude name="WEB-INF/plugins/gant-tool/**"/>
+    <exclude name="WEB-INF/plugins/gant-tool/agent/**"/>
+    <exclude name="WEB-INF/plugins/gantRunner/**"/>
+    <exclude name="WEB-INF/plugins/gantRunner/agent/**"/>
+    <exclude name="WEB-INF/plugins/ldap/**"/>
+    <exclude name="WEB-INF/plugins/ldap/server/**"/>
+    <exclude name="WEB-INF/plugins/ant/**"/>
+    <exclude name="WEB-INF/plugins/ant/server/**"/>
+    <exclude name="WEB-INF/plugins/ant/agent/**"/>
+    <exclude name="WEB-INF/plugins/priority-queue/**"/>
+    <exclude name="WEB-INF/plugins/priority-queue/server/**"/>
+    <exclude name="WEB-INF/plugins/svn/**"/>
+    <exclude name="WEB-INF/plugins/svn/server/**"/>
+    <exclude name="WEB-INF/plugins/svn/agent/**"/>
+    <exclude name="WEB-INF/plugins/idea-tool/**"/>
+    <exclude name="WEB-INF/plugins/idea-tool/agent/**"/>
+    <exclude name="WEB-INF/plugins/buildDurationStatisticsPlugin/**"/>
+    <exclude name="WEB-INF/plugins/buildDurationStatisticsPlugin/server/**"/>
+    <exclude name="WEB-INF/plugins/tfs/**"/>
+    <exclude name="WEB-INF/plugins/tfs/bin/**"/>
+    <exclude name="WEB-INF/plugins/tfs/server/**"/>
+    <exclude name="WEB-INF/plugins/tfs/agent/**"/>
+    <exclude name="WEB-INF/plugins/bugzilla/**"/>
+    <exclude name="WEB-INF/plugins/bugzilla/server/**"/>
+    <exclude name="WEB-INF/plugins/maven3-tool/**"/>
+    <exclude name="WEB-INF/plugins/maven3-tool/agent/**"/>
+    <exclude name="WEB-INF/plugins/stacktraces/**"/>
+    <exclude name="WEB-INF/plugins/stacktraces/server/**"/>
+    <exclude name="WEB-INF/plugins/stacktraces/agent/**"/>
+    <exclude name="WEB-INF/plugins/crash-detector/**"/>
+    <exclude name="WEB-INF/plugins/crash-detector/agent/**"/>
+    <exclude name="WEB-INF/plugins/commandLineRunner/**"/>
+    <exclude name="WEB-INF/plugins/commandLineRunner/server/**"/>
+    <exclude name="WEB-INF/plugins/commandLineRunner/agent/**"/>
+    <exclude name="WEB-INF/plugins/jira/**"/>
+    <exclude name="WEB-INF/plugins/jira/server/**"/>
+    <exclude name="WEB-INF/plugins/coverage/**"/>
+    <exclude name="WEB-INF/plugins/coverage/server/**"/>
+    <exclude name="WEB-INF/plugins/coverage/agent/**"/>
+    <exclude name="WEB-INF/plugins/server-side-inspections/**"/>
+    <exclude name="WEB-INF/plugins/server-side-inspections/server/**"/>
+    <exclude name="WEB-INF/plugins/server-side-inspections/agent/**"/>
+    <exclude name="WEB-INF/plugins/feed/**"/>
+    <exclude name="WEB-INF/plugins/feed/server/**"/>
+    <exclude name="WEB-INF/plugins/assembly-info-patcher/**"/>
+    <exclude name="WEB-INF/plugins/assembly-info-patcher/server/**"/>
+    <exclude name="WEB-INF/plugins/assembly-info-patcher/agent/**"/>
+    <exclude name="WEB-INF/plugins/environment-fetcher/**"/>
+    <exclude name="WEB-INF/plugins/environment-fetcher/agent/**"/>
+    <exclude name="WEB-INF/plugins/iprRunner/**"/>
+    <exclude name="WEB-INF/plugins/iprRunner/server/**"/>
+    <exclude name="WEB-INF/plugins/iprRunner/agent/**"/>
+    <exclude name="WEB-INF/plugins/changeViewers/**"/>
+    <exclude name="WEB-INF/plugins/changeViewers/server/**"/>
+    <exclude name="WEB-INF/plugins/perforce/**"/>
+    <exclude name="WEB-INF/plugins/perforce/server/**"/>
+    <exclude name="WEB-INF/plugins/perforce/agent/**"/>
+    <exclude name="WEB-INF/plugins/usage-statistics/**"/>
+    <exclude name="WEB-INF/plugins/usage-statistics/server/**"/>
+    <exclude name="WEB-INF/plugins/dotNetRunners/**"/>
+    <exclude name="WEB-INF/plugins/dotNetRunners/server/**"/>
+    <exclude name="WEB-INF/plugins/dotNetRunners/agent/**"/>
+    <exclude name="WEB-INF/plugins/cloud-amazon/**"/>
+    <exclude name="WEB-INF/plugins/cloud-amazon/server/**"/>
+    <exclude name="WEB-INF/plugins/cloud-amazon/agent/**"/>
+    <exclude name="WEB-INF/plugins/searchBuildByNumber/**"/>
+    <exclude name="WEB-INF/plugins/searchBuildByNumber/server/**"/>
+    <exclude name="WEB-INF/plugins/jabber/**"/>
+    <exclude name="WEB-INF/plugins/jabber/server/**"/>
+    <exclude name="WEB-INF/plugins/ntlm-auth-scheme/**"/>
+    <exclude name="WEB-INF/plugins/ntlm-auth-scheme/server/**"/>
+    <exclude name="WEB-INF/plugins/Maven2/**"/>
+    <exclude name="WEB-INF/plugins/Maven2/server/**"/>
+    <exclude name="WEB-INF/plugins/Maven2/agent/**"/>
+    <exclude name="WEB-INF/plugins/jvm-update/**"/>
+    <exclude name="WEB-INF/plugins/jvm-update/server/**"/>
+    <exclude name="WEB-INF/plugins/jvm-update/agent/**"/>
+    <exclude name="WEB-INF/plugins/remoteAccess/**"/>
+    <exclude name="WEB-INF/plugins/remoteAccess/server/**"/>
+    <exclude name="WEB-INF/plugins/remoteAccess/agent/**"/>
+    <exclude name="WEB-INF/plugins/gradle/**"/>
+    <exclude name="WEB-INF/plugins/gradle/server/**"/>
+    <exclude name="WEB-INF/plugins/gradle/agent/**"/>
+    <exclude name="WEB-INF/plugins/Duplicator/**"/>
+    <exclude name="WEB-INF/plugins/Duplicator/server/**"/>
+    <exclude name="WEB-INF/plugins/Duplicator/agent/**"/>
+    <exclude name="WEB-INF/plugins/windowsTray/**"/>
+    <exclude name="WEB-INF/plugins/windowsTray/server/**"/>
+    <exclude name="WEB-INF/plugins/starteam/**"/>
+    <exclude name="WEB-INF/plugins/starteam/server/**"/>
+    <exclude name="WEB-INF/plugins/email/**"/>
+    <exclude name="WEB-INF/plugins/email/server/**"/>
+    <exclude name="WEB-INF/plugins/ant-tool/**"/>
+    <exclude name="WEB-INF/plugins/ant-tool/agent/**"/>
+    <exclude name="WEB-INF/plugins/charisma/**"/>
+    <exclude name="WEB-INF/plugins/charisma/server/**"/>
+    <exclude name="WEB-INF/plugins/TeamCityArtifactsSizeStatisticsPlugin/**"/>
+    <exclude name="WEB-INF/plugins/TeamCityArtifactsSizeStatisticsPlugin/server/**"/>
+    <exclude name="WEB-INF/plugins/cvs/**"/>
+    <exclude name="WEB-INF/plugins/cvs/server/**"/>
+    <exclude name="WEB-INF/plugins/cvs/agent/**"/>
+    <exclude name="plugins/**"/>
+    <exclude name="plugins/IDE_Notificator/**"/>
+    <exclude name="plugins/ntlm-auth-scheme/**"/>
+    <exclude name="plugins/StaticUIExtensions/**"/>
+    <exclude name="plugins/jabber/**"/>
+    <exclude name="plugins/jabber/js/**"/>
+    <exclude name="plugins/jabber/css/**"/>
+    <exclude name="plugins/xcode-runner/**"/>
+    <exclude name="plugins/remoteAccess/**"/>
+    <exclude name="plugins/vs-addin-distributor/**"/>
+    <exclude name="plugins/vs-addin-distributor/img/**"/>
+    <exclude name="plugins/cloud-amazon/**"/>
+    <exclude name="plugins/searchBuildByNumber/**"/>
+    <exclude name="plugins/python/**"/>
+    <exclude name="plugins/python/js/**"/>
+    <exclude name="plugins/artifactsSizeStatistics/**"/>
+    <exclude name="plugins/perfmon/**"/>
+    <exclude name="plugins/perfmon/flot/**"/>
+    <exclude name="plugins/perfmon/js/**"/>
+    <exclude name="plugins/perfmon/css/**"/>
+    <exclude name="plugins/commandLineRunner/**"/>
+    <exclude name="plugins/starteam/**"/>
+    <exclude name="plugins/dotNetRunners/**"/>
+    <exclude name="plugins/xml-report-plugin/**"/>
+    <exclude name="plugins/clearcase/**"/>
+    <exclude name="plugins/Duplicator/**"/>
+    <exclude name="plugins/Duplicator/img/**"/>
+    <exclude name="plugins/WindowsTray-distributor/**"/>
+    <exclude name="plugins/flaky-tests/**"/>
+    <exclude name="plugins/url-build-trigger/**"/>
+    <exclude name="plugins/powershell-runner/**"/>
+    <exclude name="plugins/ldap/**"/>
+    <exclude name="plugins/ldap/js/**"/>
+    <exclude name="plugins/email/**"/>
+    <exclude name="plugins/email/js/**"/>
+    <exclude name="plugins/email/css/**"/>
+    <exclude name="plugins/jetbrains.git/**"/>
+    <exclude name="plugins/cloud-vmware/**"/>
+    <exclude name="plugins/cloud-vmware/client/**"/>
+    <exclude name="plugins/assembly-info-patcher/**"/>
+    <exclude name="plugins/intellij-plugin-distributor/**"/>
+    <exclude name="plugins/intellij-plugin-distributor/img/**"/>
+    <exclude name="plugins/priority-queue/**"/>
+    <exclude name="plugins/priority-queue/js/**"/>
+    <exclude name="plugins/priority-queue/css/**"/>
+    <exclude name="plugins/nuget/**"/>
+    <exclude name="plugins/nuget/show/**"/>
+    <exclude name="plugins/nuget/trigger/**"/>
+    <exclude name="plugins/nuget/tool/**"/>
+    <exclude name="plugins/nuget/server/**"/>
+    <exclude name="plugins/nuget/server/img/**"/>
+    <exclude name="plugins/nuget/publish/**"/>
+    <exclude name="plugins/nuget/pack/**"/>
+    <exclude name="plugins/nuget/install/**"/>
+    <exclude name="plugins/rake-runner/**"/>
+    <exclude name="plugins/stacktraces/**"/>
+    <exclude name="plugins/mobileUI/**"/>
+    <exclude name="plugins/agent.push/**"/>
+    <exclude name="plugins/anti-xss/**"/>
+    <exclude name="plugins/WindowsTray/**"/>
+    <exclude name="plugins/WindowsTray/img/**"/>
+    <exclude name="plugins/WindowsTray/js/**"/>
+    <exclude name="plugins/WindowsTray/css/**"/>
+    <exclude name="plugins/Ant/**"/>
+    <exclude name="plugins/bugzilla/**"/>
+    <exclude name="plugins/bugzilla/admin/**"/>
+    <exclude name="plugins/vss/**"/>
+    <exclude name="plugins/gradle-runner/**"/>
+    <exclude name="plugins/Maven2/**"/>
+    <exclude name="plugins/Maven2/triggers/**"/>
+    <exclude name="plugins/Ipr/**"/>
+    <exclude name="plugins/Ipr/jps/**"/>
+    <exclude name="plugins/tfs/**"/>
+    <exclude name="plugins/feed/**"/>
+    <exclude name="plugins/serverProfile/**"/>
+    <exclude name="plugins/serverProfile/js/**"/>
+    <exclude name="plugins/cvs/**"/>
+    <exclude name="plugins/buildDurationStatisticsPlugin/**"/>
+    <exclude name="plugins/swabra/**"/>
+    <exclude name="plugins/usage-statistics/**"/>
+    <exclude name="plugins/usage-statistics/js/**"/>
+    <exclude name="plugins/usage-statistics/renderers/**"/>
+    <exclude name="plugins/usage-statistics/css/**"/>
+    <exclude name="plugins/dotnet-tools/**"/>
+    <exclude name="plugins/perforce/**"/>
+    <exclude name="plugins/svn/**"/>
+    <exclude name="plugins/vault-vcs/**"/>
+    <exclude name="plugins/artifacts-mirror/**"/>
+    <exclude name="plugins/jvm-update/**"/>
+    <exclude name="plugins/FxCop/**"/>
+    <exclude name="plugins/data-dir-browse/**"/>
+    <exclude name="plugins/data-dir-browse/admin/**"/>
+    <exclude name="plugins/jira/**"/>
+    <exclude name="plugins/jira/admin/**"/>
+    <exclude name="plugins/coverage/**"/>
+    <exclude name="plugins/mercurial/**"/>
+    <exclude name="plugins/changeViewers/**"/>
+    <exclude name="plugins/changeViewers/img/**"/>
+    <exclude name="plugins/Inspection/**"/>
+    <exclude name="plugins/Inspection/img/**"/>
+    <exclude name="plugins/command.line/**"/>
+    <exclude name="plugins/youtrack/**"/>
+    <exclude name="plugins/youtrack/admin/**"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.idea-resolve-helper">
+    <patternset refid="excluded.from.module.idea-resolve-helper"/>
+  </patternset>
+  
+  <path id="idea-resolve-helper.module.sourcepath">
+    <dirset dir="${path.variable.teamcitydistribution}/webapps">
+      <include name="ROOT"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.idea-resolve-helper" depends="compile.module.idea-resolve-helper.production,compile.module.idea-resolve-helper.tests" description="Compile module idea-resolve-helper"/>
+  
+  <target name="compile.module.idea-resolve-helper.production" description="Compile module idea-resolve-helper; production classes">
+    <mkdir dir="${idea-resolve-helper.output.dir}"/>
+    <javac destdir="${idea-resolve-helper.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
+      <compilerarg line="${compiler.args.idea-resolve-helper}"/>
+      <bootclasspath refid="idea-resolve-helper.module.bootclasspath"/>
+      <classpath refid="idea-resolve-helper.module.production.classpath"/>
+      <src refid="idea-resolve-helper.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.idea-resolve-helper"/>
+    </javac>
+    
+    <copy todir="${idea-resolve-helper.output.dir}">
+      <fileset dir="${path.variable.teamcitydistribution}/webapps/ROOT">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.idea-resolve-helper.tests" depends="compile.module.idea-resolve-helper.production" description="compile module idea-resolve-helper; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.idea-resolve-helper" description="cleanup module">
+    <delete dir="${idea-resolve-helper.output.dir}"/>
+    <delete dir="${idea-resolve-helper.testoutput.dir}"/>
+  </target>
+  
+  
+  <!-- Module server -->
+  
+  <dirname property="module.server.basedir" file="${ant.file}"/>
+  
+  
+  
+  <property name="compiler.args.server" value="${compiler.args}"/>
+  
+  <property name="server.output.dir" value="${module.server.basedir}/out/production/server"/>
+  <property name="server.testoutput.dir" value="${module.server.basedir}/out/test/server"/>
+  
+  <path id="server.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="server.module.production.classpath">
+    <path refid="library.idea_annotations.jar.classpath"/>
+    <path refid="library.common-api.classpath"/>
+    <path refid="library.server-api.classpath"/>
+    <path refid="library.standard.jar.classpath"/>
+    <path refid="library.idea-openapi.classpath"/>
+    <path refid="library.servlet_api.classpath"/>
+    <path refid="library.spring.classpath"/>
+    <path refid="library.teamcity_server_runtime.classpath"/>
+  </path>
+  
+  <path id="server.runtime.production.module.classpath">
+    <pathelement location="${server.output.dir}"/>
+    <path refid="library.idea_annotations.jar.classpath"/>
+    <path refid="library.common-api.classpath"/>
+    <path refid="library.server-api.classpath"/>
+    <path refid="library.standard.jar.classpath"/>
+    <path refid="library.idea-openapi.classpath"/>
+    <path refid="library.servlet_api.classpath"/>
+    <path refid="library.spring.classpath"/>
+    <path refid="library.teamcity_server_runtime.classpath"/>
+  </path>
+  
+  <path id="server.module.classpath">
+    <pathelement location="${server.output.dir}"/>
+    <path refid="library.idea_annotations.jar.classpath"/>
+    <path refid="library.common-api.classpath"/>
+    <path refid="library.server-api.classpath"/>
+    <path refid="library.standard.jar.classpath"/>
+    <path refid="library.idea-openapi.classpath"/>
+    <path refid="library.servlet_api.classpath"/>
+    <path refid="library.spring.classpath"/>
+    <path refid="library.teamcity_server_runtime.classpath"/>
+  </path>
+  
+  <path id="server.runtime.module.classpath">
+    <pathelement location="${server.testoutput.dir}"/>
+    <pathelement location="${server.output.dir}"/>
+    <path refid="library.idea_annotations.jar.classpath"/>
+    <path refid="library.common-api.classpath"/>
+    <path refid="library.server-api.classpath"/>
+    <path refid="library.standard.jar.classpath"/>
+    <path refid="library.idea-openapi.classpath"/>
+    <path refid="library.servlet_api.classpath"/>
+    <path refid="library.spring.classpath"/>
+    <path refid="library.teamcity_server_runtime.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.server">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.server">
+    <patternset refid="excluded.from.module.server"/>
+  </patternset>
+  
+  <path id="server.module.sourcepath">
+    <dirset dir="${module.server.basedir}/server">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.server" depends="compile.module.server.production,compile.module.server.tests" description="Compile module server"/>
+  
+  <target name="compile.module.server.production" description="Compile module server; production classes">
+    <mkdir dir="${server.output.dir}"/>
+    <javac destdir="${server.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
+      <compilerarg line="${compiler.args.server}"/>
+      <bootclasspath refid="server.module.bootclasspath"/>
+      <classpath refid="server.module.production.classpath"/>
+      <src refid="server.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.server"/>
+    </javac>
+    
+    <copy todir="${server.output.dir}">
+      <fileset dir="${module.server.basedir}/server/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.server.tests" depends="compile.module.server.production" description="compile module server; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.server" description="cleanup module">
+    <delete dir="${server.output.dir}"/>
+    <delete dir="${server.testoutput.dir}"/>
+  </target>
+  
+  
+  <!-- Module tests -->
+  
+  <dirname property="module.tests.basedir" file="${ant.file}"/>
+  
+  
+  
+  <property name="compiler.args.tests" value="${compiler.args}"/>
+  
+  <property name="tests.output.dir" value="${module.tests.basedir}/out/production/tests"/>
+  <property name="tests.testoutput.dir" value="${module.tests.basedir}/out/test/tests"/>
+  
+  <path id="tests.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="tests.module.production.classpath">
+    <pathelement location="${server.output.dir}"/>
+    <path refid="library.test-api_libs.classpath"/>
+    <path refid="library.test-api.classpath"/>
+    <path refid="library.testng.classpath"/>
+    <path refid="library.jmock.classpath"/>
+    <path refid="library.common-api.classpath"/>
+    <path refid="library.agent-api.classpath"/>
+    <path refid="library.log4j.classpath"/>
+    <path refid="library.teamcity_server_runtime.classpath"/>
+    <path refid="library.common-impl.classpath"/>
+    <path refid="library.server-api.classpath"/>
+    <path refid="library.idea-openapi.classpath"/>
+    <path refid="library.servlet_api.classpath"/>
+  </path>
+  
+  <path id="tests.runtime.production.module.classpath">
+    <pathelement location="${tests.output.dir}"/>
+    <path refid="server.runtime.production.module.classpath"/>
+    <path refid="library.test-api_libs.classpath"/>
+    <path refid="library.test-api.classpath"/>
+    <path refid="library.testng.classpath"/>
+    <path refid="library.jmock.classpath"/>
+    <path refid="library.common-api.classpath"/>
+    <path refid="library.agent-api.classpath"/>
+    <path refid="library.log4j.classpath"/>
+    <path refid="library.teamcity_server_runtime.classpath"/>
+    <path refid="library.teamcity_agent_runtime.classpath"/>
+    <path refid="library.common-impl.classpath"/>
+    <path refid="library.server-api.classpath"/>
+    <path refid="library.idea-openapi.classpath"/>
+    <path refid="library.servlet_api.classpath"/>
+  </path>
+  
+  <path id="tests.module.classpath">
+    <pathelement location="${tests.output.dir}"/>
+    <pathelement location="${server.testoutput.dir}"/>
+    <pathelement location="${server.output.dir}"/>
+    <path refid="library.test-api_libs.classpath"/>
+    <path refid="library.test-api.classpath"/>
+    <path refid="library.testng.classpath"/>
+    <path refid="library.jmock.classpath"/>
+    <path refid="library.common-api.classpath"/>
+    <path refid="library.agent-api.classpath"/>
+    <path refid="library.log4j.classpath"/>
+    <path refid="library.teamcity_server_runtime.classpath"/>
+    <path refid="library.common-impl.classpath"/>
+    <path refid="library.server-api.classpath"/>
+    <path refid="library.idea-openapi.classpath"/>
+    <path refid="library.servlet_api.classpath"/>
+  </path>
+  
+  <path id="tests.runtime.module.classpath">
+    <pathelement location="${tests.testoutput.dir}"/>
+    <pathelement location="${tests.output.dir}"/>
+    <path refid="server.runtime.module.classpath"/>
+    <path refid="library.test-api_libs.classpath"/>
+    <path refid="library.test-api.classpath"/>
+    <path refid="library.testng.classpath"/>
+    <path refid="library.jmock.classpath"/>
+    <path refid="library.common-api.classpath"/>
+    <path refid="library.agent-api.classpath"/>
+    <path refid="library.log4j.classpath"/>
+    <path refid="library.teamcity_server_runtime.classpath"/>
+    <path refid="library.teamcity_agent_runtime.classpath"/>
+    <path refid="library.common-impl.classpath"/>
+    <path refid="library.server-api.classpath"/>
+    <path refid="library.idea-openapi.classpath"/>
+    <path refid="library.servlet_api.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.tests">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.tests">
+    <patternset refid="excluded.from.module.tests"/>
+  </patternset>
+  
+  <path id="tests.module.sourcepath">
+    <dirset dir="${module.tests.basedir}/tests">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.tests" depends="compile.module.tests.production,compile.module.tests.tests" description="Compile module tests"/>
+  
+  <target name="compile.module.tests.production" depends="compile.module.server" description="Compile module tests; production classes">
+    <mkdir dir="${tests.output.dir}"/>
+    <javac destdir="${tests.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
+      <compilerarg line="${compiler.args.tests}"/>
+      <bootclasspath refid="tests.module.bootclasspath"/>
+      <classpath refid="tests.module.production.classpath"/>
+      <src refid="tests.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.tests"/>
+    </javac>
+    
+    <copy todir="${tests.output.dir}">
+      <fileset dir="${module.tests.basedir}/tests/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.tests.tests" depends="compile.module.tests.production" description="compile module tests; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.tests" description="cleanup module">
+    <delete dir="${tests.output.dir}"/>
+    <delete dir="${tests.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.idea-resolve-helper, clean.module.server, clean.module.tests, clean.artifact.deploy, clean.artifact.idea-resolve-helper, clean.artifact.plugin, clean.artifact.plugin-zip" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.idea-resolve-helper, compile.module.server, compile.module.tests" description="build all modules"/>
+  
+  <target name="init.artifacts">
+    <property name="artifacts.temp.dir" value="${basedir}/__artifacts_temp"/>
+    <property name="artifact.output.deploy" value="${path.variable.teamcitydistribution}/../PluginDev.Data/plugins"/>
+    <property name="artifact.output.idea-resolve-helper" value="${basedir}/out/artifacts/idea_resolve_helper"/>
+    <property name="artifact.output.plugin" value="${basedir}/out/artifacts/plugin"/>
+    <property name="artifact.output.plugin-zip" value="${basedir}/out/artifacts/plugin_zip"/>
+    <mkdir dir="${artifacts.temp.dir}"/>
+    <property name="temp.jar.path.flaky-server.jar" value="${artifacts.temp.dir}/flaky-server.jar"/>
+    <property name="temp.jar.path.flaky-resources.jar" value="${artifacts.temp.dir}/flaky-resources.jar"/>
+    <property name="temp.jar.path.flaky.zip" value="${artifacts.temp.dir}/flaky.zip"/>
+  </target>
+  
+  <target name="clean.artifact.deploy" description="clean deploy artifact output">
+    <delete dir="${artifact.output.deploy}"/>
+  </target>
+  
+  <target name="clean.artifact.idea-resolve-helper" description="clean idea-resolve-helper artifact output">
+    <delete dir="${artifact.output.idea-resolve-helper}"/>
+  </target>
+  
+  <target name="clean.artifact.plugin" description="clean plugin artifact output">
+    <delete dir="${artifact.output.plugin}"/>
+  </target>
+  
+  <target name="clean.artifact.plugin-zip" description="clean plugin-zip artifact output">
+    <delete dir="${artifact.output.plugin-zip}"/>
+  </target>
+  
+  <target name="artifact.deploy" depends="init.artifacts, artifact.plugin-zip" description="Build &#39;deploy&#39; artifact">
+    <mkdir dir="${artifact.output.deploy}"/>
+    <copy todir="${artifact.output.deploy}">
+      <fileset dir="${artifact.output.plugin-zip}"/>
+    </copy>
+  </target>
+  
+  <target name="artifact.idea-resolve-helper" depends="init.artifacts, compile.module.idea-resolve-helper" description="Build &#39;idea-resolve-helper&#39; artifact">
+    <mkdir dir="${artifact.output.idea-resolve-helper}"/>
+    <copy todir="${artifact.output.idea-resolve-helper}">
+      <fileset dir="${path.variable.teamcitydistribution}/webapps/ROOT"/>
+    </copy>
+    <mkdir dir="${artifact.output.idea-resolve-helper}/WEB-INF"/>
+    <copy file="${path.variable.teamcitydistribution}/webapps/ROOT/WEB-INF/web.xml" tofile="${artifact.output.idea-resolve-helper}/WEB-INF/web.xml"/>
+    <copy todir="${artifact.output.idea-resolve-helper}">
+      <fileset dir="${idea-resolve-helper.output.dir}"/>
+    </copy>
+    <mkdir dir="${artifact.output.idea-resolve-helper}/plugins"/>
+    <mkdir dir="${artifact.output.idea-resolve-helper}/plugins/SPECIAL_NAME"/>
+    <copy todir="${artifact.output.idea-resolve-helper}/plugins/SPECIAL_NAME">
+      <fileset dir="${basedir}/server/resources"/>
+    </copy>
+  </target>
+  
+  <target name="artifact.plugin" depends="init.artifacts, compile.module.server" description="Build &#39;plugin&#39; artifact">
+    <mkdir dir="${artifact.output.plugin}"/>
+    <jar destfile="${temp.jar.path.flaky-server.jar}" duplicate="preserve" filesetmanifest="mergewithoutmain">
+      <zipfileset dir="${server.output.dir}"/>
+    </jar>
+    <jar destfile="${temp.jar.path.flaky-resources.jar}" duplicate="preserve" filesetmanifest="mergewithoutmain">
+      <zipfileset dir="${basedir}/server/resources" prefix="buildServerResources"/>
+    </jar>
+    <mkdir dir="${artifact.output.plugin}/server"/>
+    <copy file="${temp.jar.path.flaky-server.jar}" tofile="${artifact.output.plugin}/server/flaky-server.jar"/>
+    <copy file="${temp.jar.path.flaky-resources.jar}" tofile="${artifact.output.plugin}/server/flaky-resources.jar"/>
+    <copy file="${basedir}/server/teamcity-server-plugin.xml" tofile="${artifact.output.plugin}/teamcity-plugin.xml"/>
+    <ant antfile="ant.build.xml" target="replace-tokens-in-teamcity-plugin-xml" dir="${basedir}/build">
+      <property name="artifact.output.path" value="${artifact.output.plugin}"/>
+    </ant>
+  </target>
+  
+  <target name="artifact.plugin-zip" depends="init.artifacts, artifact.plugin" description="Build &#39;plugin-zip&#39; artifact">
+    <mkdir dir="${artifact.output.plugin-zip}"/>
+    <zip destfile="${temp.jar.path.flaky.zip}">
+      <zipfileset dir="${artifact.output.plugin}"/>
+    </zip>
+    <copy file="${temp.jar.path.flaky.zip}" tofile="${artifact.output.plugin-zip}/flaky.zip"/>
+  </target>
+  
+  <target name="build.all.artifacts" depends="artifact.deploy, artifact.idea-resolve-helper, artifact.plugin, artifact.plugin-zip" description="Build all artifacts">
+    
+    <!-- Delete temporary files -->
+    <delete dir="${artifacts.temp.dir}"/>
+  </target>
+  
+  <target name="all" depends="build.modules, build.all.artifacts" description="build all"/>
+</project>
