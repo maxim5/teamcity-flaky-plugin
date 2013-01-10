@@ -155,12 +155,17 @@ BS.Flaky.Dialog = OO.extend(BS.AbstractModalDialog, {
 
   formElement: function() {
     return $('settingsForm');
-  },
+  }
 });
 
 BS.TestDetails._toggleDetails = BS.TestDetails.toggleDetails;
 BS.TestDetails.toggleDetails = function(link, url) {
   var idx = url.indexOf("?");
   url = "/flakyTestDetails.html" + url.substr(idx);
+
+  // Should be compatible with 7.1.x and 8.0.
+  idx = url.indexOf("projectId=");
+  url = url.substr(0, idx) + "projectId=" + BS.projectId;
+
   return this._toggleDetails(link, url);
 };

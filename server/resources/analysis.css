@@ -126,10 +126,19 @@
   opacity: 1.0;
 }
 
-.test-details .block .procent {
+.test-details .block .procent,
+.test-details .block .rate {
   width: 3em;
-  text-align: right;
+  text-align: center;
   padding-left: 1em;
+}
+
+.test-details .block .procent {
+  text-align: right;
+}
+
+.test-details .block .rate .fail {
+  color: red;
 }
 
 /* Settings dialog */

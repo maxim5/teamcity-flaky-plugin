@@ -24,3 +24,7 @@
 </div>
 
 <jsp:include page="startButton.jsp"/>
+
+<script type="text/javascript">
+  BS.projectId = "${bean.project.projectId}";
+</script>
