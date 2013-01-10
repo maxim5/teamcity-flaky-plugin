@@ -14,6 +14,7 @@ import jetbrains.buildServer.serverSide.flaky.data.FailureRate;
 import jetbrains.buildServer.serverSide.flaky.data.Reason;
 import jetbrains.buildServer.serverSide.flaky.data.TestData;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Maxim Podkolzine (maxim.podkolzine@jetbrains.com)
@@ -144,24 +145,20 @@ public class TestWebDetails {
     return myTestData.getReason() instanceof BuildsOnSameModificationReason;
   }
 
-  @NotNull
+  @Nullable
   public SBuild getFailedInBuild() {
     Reason reason = myTestData.getReason();
-    assert reason instanceof BuildsOnSameModificationReason;
+    if (!(reason instanceof BuildsOnSameModificationReason)) return null;
     long buildId = ((BuildsOnSameModificationReason)reason).getFailedInBuildId();
-    SBuild build = myBuildServer.findBuildInstanceById(buildId);
-    assert build != null;
-    return build;
+    return myBuildServer.findBuildInstanceById(buildId);
   }
 
-  @NotNull
+  @Nullable
   public SBuild getSuccessfulInBuild() {
     Reason reason = myTestData.getReason();
-    assert reason instanceof BuildsOnSameModificationReason;
+    if (!(reason instanceof BuildsOnSameModificationReason)) return null;
     long buildId = ((BuildsOnSameModificationReason)reason).getSuccessfulInBuild();
-    SBuild build = myBuildServer.findBuildInstanceById(buildId);
-    assert build != null;
-    return build;
+    return myBuildServer.findBuildInstanceById(buildId);
   }
 
   public boolean isSuspiciousStatisticsReason() {

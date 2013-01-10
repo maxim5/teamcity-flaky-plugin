@@ -13,18 +13,18 @@
           <div>Diagnosis: test run differently in builds with same sources:</div>
 
           <table class="modificationBuilds">
-            <c:set var="build" value="${testDetails.failedInBuild}"/>
             <tr class="buildTypeProblem">
               <td class="fail">Failed in:</td>
-              <td class="bt"><bs:buildTypeLink buildType="${build.buildType}"/></td>
-              <td class="build"><%@ include file="/changeBuild.jspf" %></td>
+              <bs:changeRequest key="build" value="${testDetails.failedInBuild}">
+                <jsp:include page="buildTd.jsp"/>
+              </bs:changeRequest>
             </tr>
 
             <tr class="buildTypeProblem">
-              <c:set var="build" value="${testDetails.successfulInBuild}"/>
               <td class="success">Successful in:</td>
-              <td class="bt"><bs:buildTypeLink buildType="${build.buildType}"/></td>
-              <td class="build"><%@ include file="/changeBuild.jspf" %></td>
+              <bs:changeRequest key="build" value="${testDetails.successfulInBuild}">
+                <jsp:include page="buildTd.jsp"/>
+              </bs:changeRequest>
             </tr>
           </table>
         </c:when>
@@ -46,15 +46,15 @@
     failure rate: <b><fmt:formatNumber value="${stats.first > 0 ? (stats.second / stats.first) * 100 : 0}"
                                        minFractionDigits="1"
                                        maxFractionDigits="1" />%</b>
-    <br>
-    Failure rates in different build configurations and agents:
+    <%--<br>
+    Failure rates in different build configurations and agents:--%>
   </div>
 
   <table>
     <tr>
       <td class="block">
         <div class="block">
-          <div class="title">Build Types</div>
+          <div class="title">Failure statistics by all build configurations</div>
           <div class="content">
             <table>
               <c:forEach items="${testDetails.allBuildTypes}" var="bt">
@@ -72,7 +72,7 @@
       </td>
       <td class="block">
         <div class="block">
-          <div class="title">Agents</div>
+          <div class="title">Failure statistics by all agents</div>
           <div class="content">
             <table>
               <c:forEach items="${testDetails.allAgents}" var="agent">
