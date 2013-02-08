@@ -1,6 +1,5 @@
 <%@ include file="/include.jsp"
-%><jsp:useBean id="build" type="jetbrains.buildServer.serverSide.SBuild" scope="request"
-/><c:if test="${not empty build}">
+%><c:if test="${not empty build}">
   <td class="bt"><bs:buildTypeLink buildType="${build.buildType}"/></td>
   <td class="build"><%@ include file="/changeBuild.jspf" %></td>
 </c:if
