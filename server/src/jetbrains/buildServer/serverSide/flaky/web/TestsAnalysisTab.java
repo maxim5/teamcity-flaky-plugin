@@ -37,7 +37,7 @@ public class TestsAnalysisTab extends ProjectTab {
                           @NotNull BuildAgentManager agentManager,
                           @NotNull TestAnalysisProgressManager progressManager,
                           @NotNull TestAnalysisResultHolder holder) {
-    super("analysis", "Tests analysis", pagePlaces, projectManager,
+    super("analysis", "Tests Analysis", pagePlaces, projectManager,
           descriptor.getPluginResourcesPath("/analysis.jsp"));
     myBuildServer = buildServer;
     myTestManager = testManager;
