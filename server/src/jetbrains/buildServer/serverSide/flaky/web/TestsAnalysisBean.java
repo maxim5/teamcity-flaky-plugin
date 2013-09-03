@@ -125,19 +125,19 @@ public class TestsAnalysisBean {
   @NotNull
   public GroupedTestsBean getFlakyTests() {
     List<STestRun> testRuns = getTestRuns(myTestAnalysisResult.getFlakyTests());
-    return GroupedTestsBean.createForTests(testRuns);
+    return GroupedTestsBean.createForTests(testRuns, null);
   }
 
   @NotNull
   public GroupedTestsBean getSuspiciousTests() {
     List<STestRun> testRuns = getTestRuns(myTestAnalysisResult.getSuspiciousTests());
-    return GroupedTestsBean.createForTests(testRuns);
+    return GroupedTestsBean.createForTests(testRuns, null);
   }
 
   @NotNull
   public GroupedTestsBean getAlwaysFailingTests() {
     List<STestRun> testRuns = getTestRuns(myTestAnalysisResult.getAlwaysFailingTests());
-    return GroupedTestsBean.createForTests(testRuns);
+    return GroupedTestsBean.createForTests(testRuns, null);
   }
 
   @NotNull
