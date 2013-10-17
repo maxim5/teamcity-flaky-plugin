@@ -193,7 +193,7 @@ public class TestsAnalyser {
             }
             return null;
           }
-        }).execute(dbf.getConnection(), buildId, buildId, buildId, testId);
+        }).execute(dbf, buildId, buildId, buildId, testId);
 
         return null;
       }
