@@ -28,6 +28,17 @@ BS.Flaky = {
     setTimeout(function() {
       $("flaky").refresh();
     }, 2000);
+  },
+
+  scrollAndExpandIfNeeded: function() {
+    var hash = window.location.hash;
+    if (hash) {
+      var testId = hash.substring(5);                         // cut off the "#test" prefix
+      var spanId = "testNameId" + testId;
+      var link = $j("#" + spanId + " a");
+      $j("body").animate({scrollTop: link.position().top});   // scroll
+      link.trigger("click");                                  // expand
+    }
   }
 };
 
