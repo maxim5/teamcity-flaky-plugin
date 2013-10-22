@@ -7,7 +7,14 @@
     <div class="reason">
       <c:choose>
         <c:when test="${testDetails.withoutChangesReason}">
-          <div>Diagnosis: test failed in a build without changes: <bs:buildLinkFull build="${testDetails.buildWithoutChanges}"/></div>
+          <div>
+            Diagnosis: test failed in a build without changes:
+            <c:set var="buildWithoutChanges" value="${testDetails.buildWithoutChanges}"/>
+            <c:if test="${empty buildWithoutChanges}"><i>build does not exist anymore</i></c:if>
+            <c:if test="${not empty buildWithoutChanges}">
+              <bs:buildLinkFull build="${testDetails.buildWithoutChanges}"/>
+            </c:if>
+          </div>
         </c:when>
         <c:when test="${testDetails.buildsOnSameModificationReason}">
           <div>Diagnosis: test run differently in builds with same sources:</div>

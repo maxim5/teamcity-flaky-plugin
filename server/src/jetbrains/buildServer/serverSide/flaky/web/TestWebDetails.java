@@ -5,7 +5,6 @@
 package jetbrains.buildServer.serverSide.flaky.web;
 
 import com.intellij.openapi.util.Pair;
-import java.util.*;
 import jetbrains.buildServer.serverSide.*;
 import jetbrains.buildServer.serverSide.flaky.analyser.BuildWithoutChangesReason;
 import jetbrains.buildServer.serverSide.flaky.analyser.BuildsOnSameModificationReason;
@@ -15,6 +14,8 @@ import jetbrains.buildServer.serverSide.flaky.data.Reason;
 import jetbrains.buildServer.serverSide.flaky.data.TestData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.*;
 
 /**
  * @author Maxim Podkolzine (maxim.podkolzine@jetbrains.com)
@@ -131,14 +132,12 @@ public class TestWebDetails {
     return myTestData.getReason() instanceof BuildWithoutChangesReason;
   }
 
-  @NotNull
+  @Nullable
   public SBuild getBuildWithoutChanges() {
     Reason reason = myTestData.getReason();
     assert reason instanceof BuildWithoutChangesReason;
     long buildId = ((BuildWithoutChangesReason)reason).getBuildId();
-    SBuild build = myBuildServer.findBuildInstanceById(buildId);
-    assert build != null;
-    return build;
+    return myBuildServer.findBuildInstanceById(buildId);
   }
 
   public boolean isBuildsOnSameModificationReason() {
