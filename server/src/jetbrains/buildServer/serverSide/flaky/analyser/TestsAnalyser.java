@@ -267,7 +267,7 @@ public class TestsAnalyser {
     long timestamp = startDate.getTime() - period;
     return new GenericQuery<Long>(GET_FIRST_BUILD_ID_SQL,
                                   new GenericQuery.ReturnSingle<Long>(NO_BUILDS_TO_ANALYSE))
-           .execute(mySQLRunner, timestamp);
+           .execute(((SQLRunnerEx) mySQLRunner), timestamp);
   }
 
   @NotNull
