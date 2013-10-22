@@ -85,6 +85,10 @@
           </tt:testGroupWithActions>
         </bs:_collapsibleBlock>
       </c:if>
+
+      <script type="text/javascript">
+        BS.Flaky.scrollAndExpandIfNeeded();
+      </script>
     </c:when>
   </c:choose>
 

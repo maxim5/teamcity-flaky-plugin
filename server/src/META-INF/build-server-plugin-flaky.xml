@@ -10,4 +10,5 @@
   <bean class="jetbrains.buildServer.serverSide.flaky.web.TestsAnalysisTab"/>
   <bean class="jetbrains.buildServer.serverSide.flaky.web.RunTestsAnalysisController"/>
   <bean class="jetbrains.buildServer.serverSide.flaky.web.ShowTestDetailsController"/>
+  <bean class="jetbrains.buildServer.serverSide.flaky.web.TestDetailsExtension"/>
 </beans>
