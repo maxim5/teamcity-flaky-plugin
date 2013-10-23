@@ -171,4 +171,11 @@ public class TestWebDetails {
     return new Pair<Integer, Integer>(((SuspiciousFailureStatisticsReason)reason).getTotalLength(),
                                       ((SuspiciousFailureStatisticsReason)reason).getNumber());
   }
+
+  @NotNull
+  public String getExternalId() {
+    String projectId = myTestData.getProjectId();
+    SProject project = myBuildServer.getProjectManager().findProjectById(projectId);
+    return project != null ? project.getExternalId() : projectId;
+  }
 }
