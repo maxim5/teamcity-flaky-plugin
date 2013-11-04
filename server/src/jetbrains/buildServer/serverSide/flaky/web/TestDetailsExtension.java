@@ -91,7 +91,7 @@ public class TestDetailsExtension extends SimplePageExtension {
         model.put("isFlaky", isFlaky);
         model.put("isSuspicious", isSuspicious);
         model.put("isAlwaysFailing", isAlwaysFailing);
-        model.put("iconUrl", myDescriptor.getPluginResourcesPath("dice-16.png"));
+        model.put("iconUrl", myDescriptor.getPluginResourcesPath("flaky-test.png"));
       }
     }
   }
